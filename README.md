@@ -76,6 +76,12 @@ This project is built with a modern, powerful stack:
     * [N8N](https://theaiautomators.com/go/n8n) - for workflow automation and backend logic.
 
 
+## Important: Recent Changes
+
+> ⚠️ **Why This Guide Has Been Updated**
+>
+> Supabase has introduced a new authentication system and is moving towards a new service role secret and API keys, placing the old ones on a "legacy" footing. As a result, the edge functions in this repository have been updated to handle security, authentication, and authorization within the code of the function itself. This allows us to disable the "Verify JWT" flag on the functions. **Make sure you have the latest copy of the edge functions from this repository.**
+
 ## Getting Started: A Guide for No-Coders to Test and Customize
 
 This guide provides the quickest way to get InsightsLM up and running so you can test, customize, and experiment.
@@ -91,16 +97,24 @@ You will need a notepad file open to copy and paste in various credentials and d
     * If you don't have one, create a free account on [GitHub](https://github.com/).
     * Navigate to the InsightsLM template repository here: [**github.com/theaiautomators/insights-lm-public**](https://github.com/theaiautomators/insights-lm-public)
     * Click the `Use this template` button to create a copy of the repository in your own GitHub account. Fill out the form.
-3.  **Import into an AI-Coding Editor (Bolt.new)**
+3.  **Import into Bolt.new and Connect Supabase**
     * Create an account on [Bolt.new](https://bolt.new/) as it supports Supabase integration. (While the project was built on Loveable, it is currently quite difficult to import existing Github projects into Loveable)
     * Import your newly created GitHub repository into your Bolt project. You will need to link your Github account to Bolt. Choose the repo and import.
-    * Now click Integrations on the top and connect your Supabase project. You will need to link your Supabase account to Bolt.
-    * Once connected, the Supabase Edge Functions will auto-deploy. You will need to approve the running of the migration script to create the data structures in Supabase.
-4.  **Import and Configure N8N Workflows**
+    * **Wait until Bolt imports the full codebase before proceeding.**
+    * To connect Supabase, go to the **Cog icon** > **Database** > **Advanced** > **Connect to an existing database**
+    * You should see a message: "Supabase project was connected successfully"
+    * You'll get a "missing secrets" popup - **you can safely ignore this**.
+    * Now type in the Bolt chat: `Execute the database migration in script 20250606152423_v0.1.sql in the supabase/migrations folder`
+    * *(Note: You may need a paid Bolt account for this step to succeed)*
+    * Once the migration succeeds, type: `Now deploy the edge functions in the supabase/functions folder`
+4.  **Configure Edge Functions (Disable JWT Verification)**
+    * The edge functions will now be available in the Supabase dashboard.
+    * **Important:** Go into **each edge function** in the Supabase dashboard and turn **OFF** the "Verify JWT with legacy secret" option. The updated edge functions now handle authentication internally.
+5.  **Import and Configure N8N Workflows**
     * The `/n8n` directory in this repository contains the JSON files for the required N8N workflows. There are 2 approaches here.
         1. The easiest is to import the "Import_Insights_LM_Workflows.json" file into a new workflow in n8n and follow the steps in the video. This includes configuring an n8n API key which will be used to auto-create all workflows needed by the system. You will also need to set various credentials.
         2. Instead of using the above workflow importer, you can instead download and import the 6 JSON workflows in this directory. You will need to go node by node in each workflow to configure them for your services. (e.g. Supabase, OpenAI, Gemini, Sub-Workflows etc). Follow the TODOs in each workflow.
-5.  **Add N8N Webhooks to Supabase Secrets**
+6.  **Add N8N Webhooks to Supabase Secrets**
     * Your N8N workflows are triggered by webhooks from the Supabase Edge Functions. If you used the workflow importer, you will have the list of N8N secrets to create. Otherwise you'll need to gather these from the various workflows.
     * In your Supabase project dashboard, navigate to `Edge Functions` -> `Secrets` and add the following secrets. This allows the Supabase Edge Functions to securely call your N8N workflows.
     * These are the secrets that need to be created
@@ -111,10 +125,60 @@ You will need a notepad file open to copy and paste in various credentials and d
         * ADDITIONAL_SOURCES_WEBHOOK_URL
         * NOTEBOOK_GENERATION_AUTH (This is the password for the custom Header Auth for each n8n Webhook)
         * OPENAI_API_KEY (This is used in the Generate Note Title edge function)
-6.  **Test & Customize**
+7.  **Test & Customize**
     * That's it! Your instance of InsightsLM should now be live.
     * You can now test the application, upload documents, and start chatting.
     * Within Bolt.new you can also deploy this to Netlify
+
+---
+
+## Credential Configuration Notes
+
+### Supabase Credentials (for n8n)
+
+> ⚠️ **Do NOT use the "Publishable API Key"** from the Supabase dashboard.
+
+* Go to **Project Settings** > **API Keys** > **Legacy service role API Keys**
+* For all credentials in n8n, the IDs are available both in the URL (as shown in the video) and in the **Details tab** of the credential.
+
+### Webhook Auth (for n8n)
+
+* **Do NOT add "Bearer" or any prefix** to the password - just enter the password value directly.
+
+### Postgres Connection (for n8n)
+
+* In the connection popup, click **Method: Transaction Pooler** - this will show the values you need (also demonstrated in the video).
+
+---
+
+## n8n Version 2 Notes
+
+> ⚠️ **Important for n8n v2 Users**
+
+### Publishing Workflows
+
+In n8n version 2, you need to **publish** your workflows (not just activate them). The frontend app calls the published version of each workflow, so if you don't publish, the app will use an older version even though you see changes in the editor.
+
+**Publishing Order (Important!):**
+1. **First:** Publish the `Extract Text` sub-workflow
+2. **Second:** Publish the `Upsert to Vector Store` workflow
+3. **Then:** Publish the remaining workflows
+
+### Making Changes
+
+Any time you make changes to n8n workflows, you **must publish** those changes in n8n. Otherwise, the frontend app will continue calling the older published version, and you'll see different behavior than what's shown in the editor.
+
+---
+
+## Podcast Generation (Self-Hosted n8n)
+
+If you're running n8n self-hosted, the Podcast Generation workflow uses CLI nodes that require specific environment variables to be enabled:
+
+```
+NODES_EXCLUDE=[]
+```
+
+This setting allows the CLI nodes to be available. Without it, the CLI nodes will be hidden and the workflow won't function properly.
 
 ## Contributing
 
