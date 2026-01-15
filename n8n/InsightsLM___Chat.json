@@ -19,7 +19,7 @@
       "webhookId": "2fabf43f-6e6e-424b-8e93-9150e9ce7d6c",
       "credentials": {
         "httpHeaderAuth": {
-          "id": "idbRwCAZOOclgzVl",
+          "id": "39evQ95L86jhtb3I",
           "name": "Header Auth account 2"
         }
       }
@@ -99,7 +99,7 @@
       "name": "Supabase Vector Store",
       "credentials": {
         "supabaseApi": {
-          "id": "niCjm2ro09WbjRcv",
+          "id": "OeYUddl4OaIohMCC",
           "name": "Supabase account 11"
         }
       }
@@ -118,7 +118,7 @@
       "name": "Embeddings OpenAI",
       "credentials": {
         "openAiApi": {
-          "id": "xh2u9lLOh2CjFrk7",
+          "id": "hNalDChhNUDtYG7T",
           "name": "OpenAi account 4"
         }
       }
@@ -165,7 +165,7 @@
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "H64d60qeD5jwMmpa",
+          "id": "PzC8XiX0nzmyH9AA",
           "name": "Google Gemini(PaLM) Api account 2"
         }
       }
@@ -217,7 +217,7 @@
       "name": "OpenAI Chat Model1",
       "credentials": {
         "openAiApi": {
-          "id": "xh2u9lLOh2CjFrk7",
+          "id": "hNalDChhNUDtYG7T",
           "name": "OpenAi account 4"
         }
       }
