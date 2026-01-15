@@ -180,6 +180,115 @@ NODES_EXCLUDE=[]
 
 This setting allows the CLI nodes to be available. Without it, the CLI nodes will be hidden and the workflow won't function properly.
 
+---
+
+## Installing FFMPEG (Self-Hosted n8n Only)
+
+The Podcast Generation workflow requires FFMPEG to be installed on your n8n server. For official download options and documentation, see the [FFmpeg Download Page](https://www.ffmpeg.org/download.html).
+
+> ⚠️ **n8n Cloud Users:** This is **not possible** on n8n Cloud as you need SSH access to your n8n server. FFMPEG installation requires direct server access, which is only available with self-hosted n8n.
+
+### Docker Compose Installation (Recommended)
+
+If you're running n8n via Docker Compose, create a custom Dockerfile that extends the base n8n image:
+
+**1. Create a `Dockerfile` in your project directory:**
+
+```dockerfile
+FROM n8nio/n8n:latest
+
+USER root
+RUN apk add --no-cache ffmpeg
+USER node
+```
+
+**2. Update your `docker-compose.yml` to build from this Dockerfile:**
+
+```yaml
+services:
+  n8n:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # ... rest of your existing n8n config (ports, volumes, environment, etc.)
+```
+
+Instead of:
+
+```yaml
+services:
+  n8n:
+    image: n8nio/n8n:latest
+```
+
+**3. Build and run:**
+
+```bash
+docker compose build
+docker compose up -d
+```
+
+**4. When updating n8n, rebuild with:**
+
+```bash
+docker compose build --pull
+docker compose up -d
+```
+
+The `--pull` flag ensures you grab the latest base image before building.
+
+### Direct OS Installation
+
+If n8n is installed directly on your server OS (not in Docker), SSH into your server and run the appropriate commands:
+
+**Ubuntu/Debian:**
+
+```bash
+sudo apt update
+sudo apt install ffmpeg
+```
+
+**RHEL 8/9/10, Rocky Linux, AlmaLinux, CentOS Stream:**
+
+First, install EPEL, then add the RPMFusion repository (see [official RPMFusion configuration](https://rpmfusion.org/Configuration)):
+
+```bash
+# Install EPEL first (required for RPMFusion)
+sudo dnf install --nogpgcheck https://dl.fedoraproject.org/pub/epel/epel-release-latest-$(rpm -E %rhel).noarch.rpm
+
+# Install RPMFusion free repository
+sudo dnf install --nogpgcheck https://mirrors.rpmfusion.org/free/el/rpmfusion-free-release-$(rpm -E %rhel).noarch.rpm
+
+# Install ffmpeg
+sudo dnf install ffmpeg
+```
+
+**Amazon Linux 2023:**
+
+```bash
+sudo dnf install ffmpeg-free
+```
+
+**Alpine (common in Docker):**
+
+```bash
+apk add ffmpeg
+```
+
+**Alternative: Linux Static Builds**
+
+If package installation isn't possible on your system, you can download pre-compiled static builds from the [FFmpeg Download Page](https://www.ffmpeg.org/download.html). These don't require installation - just download, extract, and add to your PATH.
+
+### Verify Installation
+
+After installation, verify FFMPEG is available:
+
+```bash
+ffmpeg -version
+```
+
+---
+
 ## Contributing
 
 Contributions make the open-source community an amazing place to learn, inspire, and create. Any contributions you make are greatly appreciated.
