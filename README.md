@@ -7,7 +7,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![GitHub stars](https://img.shields.io/github/stars/theaiautomators/insights-lm-public?style=social)](https://github.com/theaiautomators/insights-lm-public/stargazers)
-[![YouTube Video](https://img.shields.io/badge/YouTube-Watch%20the%20Build-red)](https://www.youtube.com/watch?v=IXJEGjfZRBE)
+[![YouTube Video](https://img.shields.io/badge/YouTube-Watch%20the%20Build-red)](https://www.youtube.com/watch?v=Nla35It-xfc)
 
 > What if the power of a tool like NotebookLM wasn't locked away in a closed system? What if you could build a private, self-hosted alternative that can be customized for your business needs, all without writing a single line of code?
 
@@ -56,8 +56,16 @@ https://www.theaiautomators.com/
 
 For a complete demonstration of InsightsLM, an overview of its architecture, and a step-by-step guide on how to set it up, check out our YouTube video:
 
+### Original Video
+
 <p>
-  <a target="_blank" href="https://www.youtube.com/watch?v=IXJEGjfZRBE"><img src="https://raw.githubusercontent.com/theaiautomators/insights-lm-public/main/public/video.png" alt="Video" width="500"/></a>
+  <a target="_blank" href="https://www.youtube.com/watch?v=Nla35It-xfc"><img src="https://raw.githubusercontent.com/theaiautomators/insights-lm-public/main/public/video.png" alt="Video" width="500"/></a>
+</p>
+
+### Updated Walkthrough
+
+<p>
+  <a target="_blank" href="https://www.youtube.com/watch?v=Nla35It-xfc"><img src="https://raw.githubusercontent.com/theaiautomators/insights-lm-public/main/thumb.jpg" alt="Updated Setup Walkthrough" width="500"/></a>
 </p>
 
 
@@ -86,7 +94,7 @@ This project is built with a modern, powerful stack:
 
 This guide provides the quickest way to get InsightsLM up and running so you can test, customize, and experiment.
 
-I recommend you following along from 17:53 in our video here for the full step by step guide - [https://youtu.be/IXJEGjfZRBE?t=1073](https://youtu.be/IXJEGjfZRBE?t=1073)
+I recommend you following along with our video here for the full step by step guide - [https://youtu.be/Nla35It-xfc](https://youtu.be/Nla35It-xfc)
 
 You will need a notepad file open to copy and paste in various credentials and details.
 
