@@ -62,7 +62,7 @@ For a complete demonstration of InsightsLM, an overview of its architecture, and
   <a target="_blank" href="https://www.youtube.com/watch?v=Nla35It-xfc"><img src="https://raw.githubusercontent.com/theaiautomators/insights-lm-public/main/public/video.png" alt="Video" width="500"/></a>
 </p>
 
-### Updated Walkthrough
+### Updated Walkthrough (Jan 2026)
 
 <p>
   <a target="_blank" href="https://www.youtube.com/watch?v=Nla35It-xfc"><img src="https://raw.githubusercontent.com/theaiautomators/insights-lm-public/main/thumb.jpg" alt="Updated Setup Walkthrough" width="500"/></a>
@@ -197,6 +197,8 @@ The Podcast Generation workflow requires FFMPEG to be installed on your n8n serv
 > ⚠️ **n8n Cloud Users:** This is **not possible** on n8n Cloud as you need SSH access to your n8n server. FFMPEG installation requires direct server access, which is only available with self-hosted n8n.
 
 ### Docker Compose Installation (Recommended)
+
+> ⚠️ **Note:** These instructions are a rough guide. The exact steps will vary depending on your installation method, environment, server configuration, and existing setup.
 
 If you're running n8n via Docker Compose, create a custom Dockerfile that extends the base n8n image:
 
