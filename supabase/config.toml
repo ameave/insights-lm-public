@@ -50,35 +50,17 @@ ip_version = "IPv4"
 [analytics]
 enabled = false
 
-# ============ USER-FACING FUNCTIONS ============
-# These verify JWT internally and check resource ownership
-
 [functions.generate-notebook-content]
-verify_jwt = false
+verify_jwt = true
 
 [functions.send-chat-message]
-verify_jwt = false
+verify_jwt = true
 
 [functions.process-document]
-verify_jwt = false
-
-[functions.process-additional-sources]
-verify_jwt = false
-
-[functions.generate-audio-overview]
-verify_jwt = false
-
-[functions.refresh-audio-url]
-verify_jwt = false
-
-[functions.generate-note-title]
-verify_jwt = false
-
-# ============ CALLBACK FUNCTIONS ============
-# Called by external webhooks (n8n), no user context available
+verify_jwt = true
 
 [functions.process-document-callback]
 verify_jwt = false
 
-[functions.audio-generation-callback]
-verify_jwt = false
+[functions.process-additional-sources]
+verify_jwt = true

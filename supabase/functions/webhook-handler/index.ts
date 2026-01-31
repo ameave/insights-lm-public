@@ -13,14 +13,14 @@ serve(async (req) => {
   }
 
   try {
-    const { type, notebookId, urls, title, content, timestamp, sourceIds } = await req.json();
+    const { type, notebookId, urls, title, content, timestamp } = await req.json();
     
-    console.log(`Process additional sources received ${type} request for notebook ${notebookId}`);
+    console.log(`Webhook handler received ${type} request for notebook ${notebookId}`);
 
     // Get the webhook URL from Supabase secrets
-    const webhookUrl = Deno.env.get('ADDITIONAL_SOURCES_WEBHOOK_URL');
+    const webhookUrl = Deno.env.get('WEBHOOK_URL');
     if (!webhookUrl) {
-      throw new Error('ADDITIONAL_SOURCES_WEBHOOK_URL not configured');
+      throw new Error('WEBHOOK_URL not configured');
     }
 
     // Get the auth token from Supabase secrets (same as generate-notebook-content)
@@ -37,7 +37,6 @@ serve(async (req) => {
         type: 'multiple-websites',
         notebookId,
         urls,
-        sourceIds, // Array of source IDs corresponding to the URLs
         timestamp
       };
     } else if (type === 'copied-text') {
@@ -46,7 +45,6 @@ serve(async (req) => {
         notebookId,
         title,
         content,
-        sourceId: sourceIds?.[0], // Single source ID for copied text
         timestamp
       };
     } else {
@@ -60,7 +58,7 @@ serve(async (req) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': authToken,
+        'Authorization': `Bearer ${authToken}`,
         ...corsHeaders
       },
       body: JSON.stringify(webhookPayload)
@@ -87,7 +85,7 @@ serve(async (req) => {
     });
 
   } catch (error) {
-    console.error('Process additional sources error:', error);
+    console.error('Webhook handler error:', error);
     
     return new Response(JSON.stringify({ 
       error: error.message,
